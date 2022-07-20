@@ -53,7 +53,9 @@
     margin: 0 0.1rem;
     padding: 0.1rem 0.1rem;
     white-space: nowrap;
-    background: #efefef;
+    back
+
+	ground: #efefef;
     border: 1px solid #d3d3d3;
     color: #000000;
     border-radius: 3px;
@@ -162,7 +164,18 @@ pre > code {
 	p.small {
 		font-size: 12px
 	}
+	figure{
+  display: inline-block;
+}
+
+/* optional, use as required */
+figcaption {
+  max-width: 100%;
+  caption-side: bottom;
+}
 </style>
+
+
 
 <html>
   <head>
@@ -289,12 +302,12 @@ pre > code {
 		<hr>
 			<!-- <table align=center width=550px> -->
   		  <table align=center width=1000 style="text-align: justify;">
-	 		<center><h1>Summary</h1></center>
+	 		<center><h1><span style="font-size:30px">Summary</h1></center>
   			  <tr>
   			  	<td>
   			  		<img style="height:300px; margin-right: 20px;" src="figures/celeba_output_visualization.png"/>
   			  	<td>
-				  Our work addressed the problem of directly giving uncertainty estimates on semantically meaningful
+				  Our work addresses the problem of directly giving uncertainty estimates on semantically meaningful
 				  image properties. We make progress on this problem by bringing techniques from quantile regression and
 				  distribution-free uncertainty quantification together with a disentangled latent space learned by a
 				  <em>generative adversarial network</em> (GAN). We call the coordinates of this latent space <em>semantic factors</em>,
@@ -352,109 +365,97 @@ pre > code {
 		  		  </ul>
 			  </p>
   		  </table>
-
-<!-- 		  <br>
-
-  		  	<hr>
-  		  	<div id='video'>
-			<center><h1>Video</h1>
-
-			<table align=center width=800px>
-				<tr>
-				<td>
-					<video width="800px" controls>
-					  <source src="images/projectvideo2.mp4" type="video/mp4">
-					Your browser does not support the video tag.
-					</video>
-				</td>
-
-				</tr>
-			</table>
-			</center>
-			</div> -->
-<!-- 		<br>
-
-	  	<hr>
-
-	  	<center><h1>Bibtex</h1>
-
-			<table align=center width=800px>
-				<tr>
-				<td>
-		      <pre><code>
-	      @inproceedings{chan2022drawings,
-	      title={Learning to generate line drawings that convey geometry and semantics},
-	      author={Chan, Caroline and Durand, Fr&eacute;do and Isola, Phillip},
-	      booktitle={CVPR},
-	      year={2022}
-	      }
-      </code></pre>
-					</td>
-
-				</tr>
-			</table>
-			</center> -->
-
-<!--  		  <table align=center width=1000px>-->
-<!--  			  <tr>-->
-<!--  	              <td>-->
-<!--			<left>-->
-<!--				<center><h1><span style="font-size:30px">Acknowledgements</span></h1></center>-->
-<!--					We thank Judy Hoffman for helpful discussion and advice. This work was partially supported by funding from MIT STL and an MIT RSC award from the NEC fund.-->
-<!--			</left>-->
-<!--		      </td>-->
-<!--		</tr>-->
-<!--		</table>-->
 		<br>
-
-  		<br>
-		  <hr>
-
+	    <hr>
   		  <table align=center width=1000 style="text-align: justify;">
 			  <center><h1><span style="font-size:30px">Results</span></h1></center>
-			  <p style="text-align:justify;margin-top:10px">
-				  Generative architectures such as StyleGAN and its variants have been shown to contain a disentangled latent space which factors into interpretable features such as hair color, expression etc.
-				  We use this feature to obtain semantically meaningful uncertainty in the latent space of a generative model. Since the latent space is disentangled, the uncertainty intervals natually
-				  factor into different interpretable dimensions. Thus given an image of a face for instance, we can obtain meaningful uncertainty estimates separately for different aspects of the face such as hair shape / color etc.
-
-				  Our training consists of three core steps:
-				  <ul>
-			  		<li><em>Sample</em> random latent codes $Z$ and the corresponding generated images $Y$ from the generative model. We apply a corruption model (image super-resolution / image masking)
-				  to generate our training data:  $(X,Z)$ pairs where $X$ is the set of corrupted images.</li>
-			  			<table align=center width=900px>
-						 <tr>
-							  <td width=600px>
-							<center>
-								<a href="training_procedure.png"><img src = "figures/training_procedure.png" width="400px"></img></href></a><br>
-							</center>
-							  </td>
-							 </tr>
-					  </table>
-			  		<li> <em>Train</em> an encoder network to predict the latent code along with a lower and upper quantile for each dimension of the latent code. The uncertainty intervals around each
-						latent dimension can be derived trivially using the lower and upper quantile predictions. </li>
-
-			  		<table align=center width=900px>
-						 <tr>
-							  <td width=600px>
-							<center>
-								<a href="intervals_calibration.png"><img src = "figures/intervals_calibration.png" width="400px"></img></href></a><br>
-							</center>
-							  </td>
-							 </tr>
-					  </table>
-
-			  		<li> <em>Calibrate</em> the quantile intervals to provide coverage guarantees. The quantile intervals natually provide a notion of uncertainty around each latent dimension.
-						However, they is no guarantee of coverage i.e. it is unclear if the underying true latent factor is contained in the predicted interval. The calibration procedure provides
-						guarantees this notion of coverage.
-					</li>
-
-		  		  </ul>
-			  </p>
+		  </table>
+			<div style='text-align:center'>
+				<table align=center width=1000 style="text-align: justify;">
+	 		<center><h1><span style="font-size:25px">Producing semantic uncertainties</h1></center>
+					<br>
+  			  <tr>
+  			  	<td>
+  			  		<img style="height:300px; margin-right: 40px;" src="figures/clevr_output_viz.png"/>
+  			  	<td>
+				 The image on the left shows a uncertainty prediction output on a sample drawn from the CLEVR dataset trained
+				  generative model. The uncertainty factors naturally into the latent factors, we visualize <em>shape</em> and <em>color</em> here.
+				The lower and upper quantile images yield similar colors, which is predictable from the blurry input.
+				The model predicts that both a cylinder and sphere would be consistent with this blurry input.
+				The calibrated quantiles cover the ground truth color value while the uncalibrated ones do not.
+  	          </td>
+              </tr>
   		  </table>
+				<br>
 
-		 <hr>
-		<br>
+    <h1>
+      Adaptivity to varying input corruption
+    </h1>
+				<br>
+
+    <table class="image" align="center" >
+    <tr>
+      <td>
+        <img src="figures/superres_uncertainty_viz.png"
+               width="80%" border="1"
+               alt="none"
+        />
+		  <figcaption>Image super-resolution</figcaption>
+      </td>
+      <td>
+        <img src="figures/inpainting_uncertainty_viz.png"
+               width="79%" border="1"
+               alt="none"
+        />
+		   <figcaption>Image inpainting</figcaption>
+      </td>
+    </tr>
+    </table>
+				<br>
+				 <p style="text-align:justify;margin-top:10px">
+				 For the image super-resolution case, the corruption intensity is varied across each set, the input image in the top row is not corrupted while the input in the bottom row is under-sampled by 16x. In both cases,
+		  we can observe that the most diverse prediction is in the bottom row where the input is corrupted the most.
+					 <br>
+					 <br>
+					 For the image inpainting case, a random mask is applied to the same input image in each row. When there is no mask (1st row), both quantiles are extremely close to the pointwise prediction.
+		  As we increase the regions that are being masked, the predicted intervals expand, as indicated by the variability on the quantile predictions.
+
+	<br><br>
+	<h1>
+      Quantitative results: Set sizes and Calibration
+    </h1>
+
+    <table class="image" align="center" >
+    <tr>
+      <td>
+        <img src="figures/FFHQ_superres_set_sizes.png"
+               width="80%"
+               alt="none"
+        />
+		  <figcaption>Calibrated set sizes adapt to problem difficulty</figcaption>
+      </td>
+      <td>
+        <img src="figures/FFHQ_superres_risk_calibration.png"
+               width="80%"
+               alt="none"
+        />
+		   <figcaption>Calibration procedure guarantees desired coverage</figcaption>
+      </td>
+    </tr>
+    </table>
+
 	<br>
+				<hr>
+				<table align=left width=1000px>
+  			  <tr>
+  	              <td>
+			<left>
+				<h1><span style="font-size:30px">Acknowledgements</span></h1>
+					SS and PI acknowledge the MIT SuperCloud and Lincoln Laboratory Supercomputing Center for providing HPC resources that have contributed to the research results reported within this paper.
+			</left>
+		      </td>
+		</tr>
+		</table>
 
 
 </body>
